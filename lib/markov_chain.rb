@@ -8,7 +8,8 @@ class MarkovChain
   end
 
   def transition_possibility(current_state, next_state)
-    transitions[states.index(current_state)][states.index(next_state)]
+    total_transitions = transitions[states.index(current_state)].reduce(:+)
+    transitions[states.index(current_state)][states.index(next_state)].to_f / total_transitions
   end
 end
 
@@ -39,29 +40,37 @@ class MarkovEvent
   end
 end
 
-states = ["Cheese", "Grapes", "Lettuce"]
-transitions = [
-  [0, 0.5, 0.5],
-  [0.4, 0.1, 0.5],
-  [0.6, 0.4, 0]
-]
+# states = ["Cheese", "Grapes", "Lettuce"]
+# transitions = [
+#   [0, 2, 3],
+#   [0.4, 0.1, 0.5],
+#   [0.6, 0.4, 0]
+# ]
 
-chain = MarkovChain.new(states: states, transitions: transitions)
+# chain = MarkovChain.new(states: states, transitions: transitions)
 
-event = MarkovEvent.new(chain: chain)
+# event = MarkovEvent.new(chain: chain)
 
-grape = 0
-lettuce = 0
+# cheese = 0
+# grapes = 0
+# lettuce = 0
 
-100000.times do
-  next_event = event.next_event
-  if event.state == 'Cheese' && next_event.state == 'Grapes'
-    grape += 1
-  elsif event.state == 'Cheese' && next_event.state == 'Lettuce'
-    lettuce += 1
-  end
-  event = next_event
-end
+# 100000.times do
+#   next_event = event.next_event
+#   if event.state == 'Grapes'
+#     if next_event.state == 'Grapes'
+#       grapes += 1
+#     elsif next_event.state == 'Lettuce'
+#       lettuce += 1
+#     elsif next_event.state == 'Cheese'
+#       cheese += 1
+#     end
+#   end
 
-puts grape
-puts lettuce
+#   event = next_event
+# end
+
+# total = cheese + grapes + lettuce
+# puts cheese.to_f / total
+# puts grapes.to_f / total
+# puts lettuce.to_f / total
